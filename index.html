@@ -542,13 +542,13 @@ function thumb(e,size){const cv=el('canvas',{'aria-hidden':'true'});requestAnima
 function go(m){mode=m;herSel=null;history.replaceState(null,'',m==='her'?location.pathname+location.search:'#'+m);render();window.scrollTo(0,0);}
 function tabs(){const t=el('nav',{class:'tabs','aria-label':'Разделы'});
   [['her','Её сад'],['pick','Выбрать на сегодня'],['setup','Настройка']].forEach(m=>{t.appendChild(el('button',{class:'tab','aria-pressed':String(mode===m[0]),onclick:()=>go(m[0])},[m[1]]));});return t;}
-function footer(){return el('footer',{class:'foot'},[el('a',{href:'#widget',onclick:ev=>{ev.preventDefault();go('widget');}},['Поставить букет виджетом на iPhone']),
-  OWNER()?null:el('a',{href:'#setup',class:'quiet',onclick:ev=>{ev.preventDefault();go('setup');}},['Настройка'])]);}
+/* нижние ссылки видит только тот, у кого сохранён ключ; ей виджет и настройка открываются прямыми ссылками #widget и #setup */
+function footer(){if(!OWNER())return null;return el('footer',{class:'foot'},[el('a',{href:'#widget',onclick:ev=>{ev.preventDefault();go('widget');}},['Как поставить виджет на iPhone (ссылка для неё: …/buket/#widget)'])]);}
 function render(){queue.length=0;pumping=false;if(anim)anim.stop();app.textContent='';
   if(!LOADED){app.appendChild(el('p',{class:'pending',text:'Загружаю букеты…'}));return;}
   if(OWNER()&&mode!=='all'&&mode!=='widget')app.appendChild(tabs());
   if(mode==='all')renderAll();else if(mode==='setup')renderSetup();else if(mode==='widget')renderWidget();else if(mode==='pick'&&OWNER())renderPick();else renderHer();
-  if(mode!=='setup')app.appendChild(footer());}
+  const f=mode!=='setup'&&mode!=='widget'?footer():null;if(f)app.appendChild(f);}
 
 function renderHer(){
   const dates=sorted(),today=keyOf(new Date());
