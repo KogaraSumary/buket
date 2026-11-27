@@ -122,8 +122,8 @@ const KINDS=[
   /* новые: свои лепестки по частям, соцветия и колоски */
   {name:'тюльпан',pl:'тюльпаны',ins:'тюльпаном',big:1,center:.05,stamens:6,dome:.5,parts:[{n:3,type:'round',L:1,wk:.42,e:1.22,cup:.7,curl:.06},{n:3,type:'round',L:.95,wk:.42,e:1.32,cup:.7,off:.5,dl:6}]},
   {name:'ирис',pl:'ирисы',ins:'ирисом',rare:1,big:1,center:.04,dome:.5,parts:[{n:3,type:'round',L:1,wk:.38,e:-.5,curl:-.12,cup:.25,ruffle:.1,dl:-8},{n:3,type:'round',L:.85,wk:.3,e:1.25,cup:.45,off:.5,ruffle:.1,dl:8},{n:3,type:'point',L:.42,wk:.1,e:.05,col:{h:48,s:90,l:60}}]},
-  {name:'калла',pl:'каллы',ins:'каллой',rare:1,big:1,center:0,spadix:1,parts:[{angles:[0],type:'point',L:1,wk:.7,e:1.05,cup:1.5,curl:-.3,base:0}]},
-  {name:'орхидея',pl:'орхидеи',ins:'орхидеей',rare:1,big:1,center:.05,dome:.5,parts:[{angles:[1.571,3.67,-.53],type:'point',L:.95,wk:.2,e:.18,cup:.15},{angles:[.3,2.84],type:'round',L:.85,wk:.46,e:.22,cup:.15,dl:6},{angles:[-1.571],type:'round',L:.5,wk:.3,e:.45,cup:.9,dl:-14,dh:12}]},
+  {name:'калла',pl:'каллы',ins:'каллой',rare:1,big:1,center:0,spadix:1,custom:'calla'},
+  {name:'орхидея',pl:'орхидеи',ins:'орхидеей',rare:1,big:1,center:0,orchid:1,parts:[{angles:[1.571,-1.13,-2.01],type:'point',L:.95,wk:.2,e:.1,cup:.2,dl:4},{angles:[.18,2.96],type:'round',L:.74,wk:.42,e:.14,cup:.22,dl:8},{angles:[-1.571],type:'notch',L:.42,wk:.2,e:.55,cup:.5,curl:.12,base:.04,dl:-16,dh:-18}]},
   {name:'протея',pl:'протеи',ins:'протеей',rare:1,big:1,center:.38,dome:1.15,cs:'light',parts:[{n:14,type:'point',L:1,wk:.16,e:.85,cup:.4,dl:-4},{n:14,type:'point',L:.9,wk:.15,e:1.12,cup:.4,off:.5},{n:12,type:'point',L:.75,wk:.14,e:1.35,cup:.4,dl:6}]},
   {name:'страстоцвет',pl:'страстоцветы',ins:'страстоцветом',rare:1,big:1,center:.1,cs:'green',corona:1,lily:5,dome:.6,parts:[{n:5,type:'long',L:.95,wk:.2,e:.05,cup:.1},{n:5,type:'long',L:.92,wk:.2,e:.1,off:.5,dl:10,cup:.1}]},
   {name:'стрелиция',pl:'стрелиции',ins:'стрелицией',rare:1,big:1,center:0,parts:[{angles:[0],type:'point',L:1,wk:.17,e:.1,cup:.6,col:{h:150,s:30,l:34,h2:300}},{angles:[-.25,0,.25],type:'point',L:.85,wk:.1,e:1,cup:.5,base:.15,col:{h:28,s:95,l:55,h2:40}},{angles:[.08],type:'point',L:.7,wk:.08,e:.75,cup:.5,base:.15,col:{h:225,s:70,l:50}}]},
@@ -428,6 +428,14 @@ function partSpec(f,P){
 function ringGeos(P,cf,r,lo,rot,cr){const out=[];const angs=P.angles?P.angles.map(a=>rot+a):Array.from({length:P.n},(_,i)=>rot+(i+(P.off||0))*TAU/P.n+(r()-.5)*.08);
   angs.forEach(a=>{const g=petalGeo((P.L||1)*(.93+r()*.12),(P.wk||.3)*(.92+r()*.14),P.type||'round',{sx:lo.sx,sy:lo.sy,cup:P.cup||0,curl:P.curl||0,ruffle:P.ruffle,phase:r()*TAU},cf);
     g.applyMatrix4(placeMat(a,(P.e||0)+(r()-.5)*.05,P.base!=null?P.base:cr*.5,P.y0||0));out.push(g);});return out;}
+function callaGeo(cf){const nu=30,nv=14,pos=[],col=[],idx=[],c=new T3.Color();
+  for(let j=0;j<=nv;j++){const v=j/nv,tm=Math.PI*(1-.42*Math.pow(v,1.3));
+    for(let i=0;i<=nu;i++){const th=-tm+i/nu*2*tm,back=Math.pow((1+Math.cos(th))/2,3),h=.72+.5*back,y=v*h;
+      const r=.05+.34*Math.pow(v,1.35)+.12*Math.pow(v,3)*(1-Math.cos(th))/2;
+      pos.push(r*Math.sin(th),y,-r*Math.cos(th)+.04*v);cf(v,0,c);c.multiplyScalar(1-.1*(1-v));col.push(c.r,c.g,c.b);}}
+  for(let j=0;j<nv;j++)for(let i=0;i<nu;i++){const a=j*(nu+1)+i,b=a+nu+1;idx.push(a,b,a+1,b,b+1,a+1);}
+  const g=new T3.BufferGeometry();g.setAttribute('position',new T3.Float32BufferAttribute(pos,3));g.setAttribute('color',new T3.Float32BufferAttribute(col,3));
+  g.setAttribute('uv',new T3.Float32BufferAttribute(new Array(pos.length/3*2).fill(0),2));g.setIndex(idx);g.computeVertexNormals();g.rotateX(-.28);g.scale(1.15,1.15,1.15);return g;}
 function headObj(ctx,f){
   const st=ctx.st,K=f.K,r=rngOf(f.seed),R=1,lo=st.flat?{sx:2,sy:4}:{sx:6,sy:10},lo2=st.flat?{sx:2,sy:3}:{sx:3,sy:5};
   const cfOf=sp=>{const pal=palOf(st,'petal',sp);return(t,s,o)=>{o.copy(pal[0]).lerp(pal[1],t);o.multiplyScalar(1-.12*s*s);};};
@@ -442,6 +450,7 @@ function headObj(ctx,f){
       C.sub.forEach(P=>{ringGeos(P,cf,r,lo2,rr,.08).forEach(g=>{g.applyMatrix4(m);petals.push(g);});});
       if(C.dot){const s=new T3.IcosahedronGeometry(.16,0);s.applyMatrix4(m);dots.push(s);}}
     if(C.layout!=='dome')extraStems.push(cylBetween(new T3.Vector3(0,-.05,0),new T3.Vector3(0,C.layout==='spike'?C.h+.15:.75,0),.025,5));}
+  else if(K.custom==='calla'){petals.push(callaGeo(cf));}
   else if(K.parts){K.parts.forEach(P=>{const sp=partSpec(f,P);put(sp,ringGeos(P,cfOf(sp),r,lo,rot,cr));});}
   else if(K.spiral){const m=K.spiral;for(let i=0;i<m;i++){const fr=i/m,L=R*(1-fr*.72),W=L*K.wk*(1-fr*.2),e=K.e[0]+(K.e[1]-K.e[0])*Math.pow(fr,.8);
       const g=petalGeo(L,W,K.type,{...lo,cup:K.cup*(.6+fr*.6),curl:(K.curl||0)*(1-fr)+fr*.12,ruffle:K.ruffle,phase:r()*TAU},cf);g.applyMatrix4(placeMat(rot+i*2.39996,e,fr*.05,fr*.12));petals.push(g);}}
@@ -456,7 +465,10 @@ function headObj(ctx,f){
   if(K.cs==='light')cs={h:f.hs.h,s:25,l:88,h2:f.hs.h};else if(K.cs==='green')cs={h:85,s:55,l:50,h2:70};else if(K.cs==='orange')cs={h:22,s:85,l:40,h2:30};else if(K.cs==='self')cs={h:f.hs.h,s:Math.min(90,f.hs.s+10),l:f.hs.l-6,h2:f.hs.h2};
   else if(K.dark)cs={h:275,s:30,l:20,h2:300};else if(K.pod)cs={h:72,s:55,l:52,h2:60};else if(r()<.65||f.hs.white)cs={h:44,s:85,l:50,h2:30};else cs={h:f.hs.h+180,s:50,l:40,h2:f.hs.h+160};
   if(dots.length){const cp=palOf(st,'center',{h:48,s:80,l:62});dots.forEach(g=>tint(g,cp[1]));grp.add(makeObj(ctx,merge(dots),'center',{h:48,s:80,l:62}));}
-  if(K.spadix){const cp=palOf(st,'center',{h:48,s:90,l:52,h2:44});const g=new T3.CylinderGeometry(.045,.07,.72,10,6);g.translate(0,.36,0);tint(g,cp[0],cp[1],'y',0,.72);const tip=new T3.SphereGeometry(.045,10,6);tip.translate(0,.72,0);tint(tip,cp[1]);grp.add(makeObj(ctx,merge([g,tip]),'center',{h:48,s:90,l:52}));}
+  if(K.orchid){const cp=palOf(st,'center',{h:f.hs.h,s:20,l:94}),yp=palOf(st,'center',{h:48,s:95,l:58});const col=new T3.CylinderGeometry(.045,.06,.2,10,2);col.rotateX(.9);col.translate(0,.1,-.03);tint(col,cp[1]);
+    const tip=new T3.SphereGeometry(.05,10,6);tip.translate(0,.18,.06);tint(tip,cp[1]);const cal=new T3.SphereGeometry(.05,10,6);cal.scale(1.2,.5,1);cal.translate(0,.06,-.12);tint(cal,yp[1]);
+    grp.add(makeObj(ctx,merge([col,tip,cal]),'center',{h:f.hs.h,s:20,l:94}));}
+  if(K.spadix){const cp=palOf(st,'center',{h:48,s:90,l:52,h2:44});const g=new T3.CylinderGeometry(.04,.06,.66,10,6);g.translate(0,.33,0);g.rotateX(-.28);tint(g,cp[0],cp[1],'y',0,.66);const tip=new T3.SphereGeometry(.04,10,6);tip.translate(0,.66,0);tip.rotateX(-.28);tint(tip,cp[1]);grp.add(makeObj(ctx,merge([g,tip]),'center',{h:48,s:90,l:52}));}
   if(cr>.03){const cp=palOf(st,'center',cs),dome=K.dome||.5,parts=[];
     const d=new T3.SphereGeometry(cr,st.flat?8:22,st.flat?3:8,0,TAU,0,Math.PI/2);d.applyMatrix4(new T3.Matrix4().makeScale(1,dome,1));tint(d,cp[0],cp[1],'y',0,cr*dome);parts.push(d);
     const N=Math.max(8,Math.round(1100*cr*cr)),sz=cr/Math.sqrt(N)*.62;
