@@ -106,20 +106,47 @@ function pair(a,b){return[C(a),C(b)];}
 
 /* ================= виды цветов ================= */
 const KINDS=[
-  {name:'ромашка',pl:'ромашки',n:[13,17],type:'long',layers:2,wk:.13,center:.22,shrink:.1,e:[.08,.2],cup:.12,curl:-.06,dome:.55},
-  {name:'маргаритка',pl:'маргаритки',n:[20,26],type:'long',layers:3,wk:.08,center:.18,shrink:.13,e:[.12,.5],cup:.2,dome:.5},
-  {name:'космея',pl:'космеи',n:[8,8],type:'notch',layers:1,wk:.3,center:.14,e:[.3,.3],cup:.3,curl:.05,stamens:18,dome:.5},
-  {name:'астра',pl:'астры',n:[18,24],type:'point',layers:4,wk:.1,center:.13,shrink:.17,e:[.15,1],cup:.35,dome:.5},
-  {name:'лилия',pl:'лилии',n:[3,3],type:'point',layers:2,wk:.28,center:.06,shrink:.03,e:[.45,.55],cup:.35,curl:-.4,lily:1,dome:.4},
-  {name:'анемона',pl:'анемоны',n:[5,6],type:'round',layers:2,wk:.42,center:.2,shrink:.28,e:[.35,.6],cup:.35,stamens:30,dark:1,dome:.7},
-  {name:'пион',pl:'пионы',n:[7,9],type:'round',layers:5,wk:.4,center:.08,shrink:.15,e:[.35,1.3],cup:.6,ruffle:.14,big:1,dome:.5},
-  {name:'роза',pl:'розы',spiral:26,type:'round',wk:.52,center:.04,e:[.3,1.42],cup:.75,curl:-.12,ruffle:.04,big:1,dome:.5},
-  {name:'георгин',pl:'георгины',n:[12,16],type:'point',layers:5,wk:.15,center:.07,shrink:.15,e:[.08,1.25],cup:.7,big:1,dome:.5},
-  {name:'подсолнух',pl:'подсолнухи',n:[18,24],type:'long',layers:2,wk:.1,center:.36,shrink:.07,e:[.05,.18],cup:.15,curl:-.05,hue:44,dome:.28},
-  {name:'мак',pl:'маки',n:[4,4],type:'round',layers:2,wk:.58,center:.15,shrink:.12,e:[.6,.85],cup:.55,ruffle:.1,stamens:34,dark:1,dome:.8},
-  {name:'лотос',pl:'лотосы',n:[8,9],type:'point',layers:3,wk:.28,center:.17,shrink:.18,e:[.45,1.15],cup:.55,pod:1,big:1,dome:.35},
-  {name:'хризантема',pl:'хризантемы',n:[22,28],type:'long',layers:4,wk:.07,center:.08,shrink:.15,e:[.1,1.2],cup:.45,curl:.08,dome:.5}
+  {name:'ромашка',pl:'ромашки',ins:'ромашкой',n:[13,17],type:'long',layers:2,wk:.13,center:.22,shrink:.1,e:[.08,.2],cup:.12,curl:-.06,dome:.55},
+  {name:'маргаритка',pl:'маргаритки',ins:'маргариткой',n:[20,26],type:'long',layers:3,wk:.08,center:.18,shrink:.13,e:[.12,.5],cup:.2,dome:.5},
+  {name:'космея',pl:'космеи',ins:'космеей',n:[8,8],type:'notch',layers:1,wk:.3,center:.14,e:[.3,.3],cup:.3,curl:.05,stamens:18,dome:.5},
+  {name:'астра',pl:'астры',ins:'астрой',n:[18,24],type:'point',layers:4,wk:.1,center:.13,shrink:.17,e:[.15,1],cup:.35,dome:.5},
+  {name:'лилия',pl:'лилии',ins:'лилией',n:[3,3],type:'point',layers:2,wk:.28,center:.06,shrink:.03,e:[.45,.55],cup:.35,curl:-.4,lily:1,dome:.4},
+  {name:'анемона',pl:'анемоны',ins:'анемоной',n:[5,6],type:'round',layers:2,wk:.42,center:.2,shrink:.28,e:[.35,.6],cup:.35,stamens:30,dark:1,dome:.7},
+  {name:'пион',pl:'пионы',ins:'пионом',n:[7,9],type:'round',layers:5,wk:.4,center:.08,shrink:.15,e:[.35,1.3],cup:.6,ruffle:.14,big:1,dome:.5},
+  {name:'роза',pl:'розы',ins:'розой',spiral:26,type:'round',wk:.52,center:.04,e:[.3,1.42],cup:.75,curl:-.12,ruffle:.04,big:1,dome:.5},
+  {name:'георгин',pl:'георгины',ins:'георгином',n:[12,16],type:'point',layers:5,wk:.15,center:.07,shrink:.15,e:[.08,1.25],cup:.7,big:1,dome:.5},
+  {name:'подсолнух',pl:'подсолнухи',ins:'подсолнухом',n:[18,24],type:'long',layers:2,wk:.1,center:.36,shrink:.07,e:[.05,.18],cup:.15,curl:-.05,hue:44,dome:.28},
+  {name:'мак',pl:'маки',ins:'маком',n:[4,4],type:'round',layers:2,wk:.58,center:.15,shrink:.12,e:[.6,.85],cup:.55,ruffle:.1,stamens:34,dark:1,dome:.8},
+  {name:'лотос',pl:'лотосы',ins:'лотосом',rare:1,n:[8,9],type:'point',layers:3,wk:.28,center:.17,shrink:.18,e:[.45,1.15],cup:.55,pod:1,big:1,dome:.35},
+  {name:'хризантема',pl:'хризантемы',ins:'хризантемой',n:[22,28],type:'long',layers:4,wk:.07,center:.08,shrink:.15,e:[.1,1.2],cup:.45,curl:.08,dome:.5},
+  /* новые: свои лепестки по частям, соцветия и колоски */
+  {name:'тюльпан',pl:'тюльпаны',ins:'тюльпаном',big:1,center:.05,stamens:6,dome:.5,parts:[{n:3,type:'round',L:1,wk:.42,e:1.22,cup:.7,curl:.06},{n:3,type:'round',L:.95,wk:.42,e:1.32,cup:.7,off:.5,dl:6}]},
+  {name:'ирис',pl:'ирисы',ins:'ирисом',rare:1,big:1,center:.04,dome:.5,parts:[{n:3,type:'round',L:1,wk:.38,e:-.5,curl:-.12,cup:.25,ruffle:.1,dl:-8},{n:3,type:'round',L:.85,wk:.3,e:1.25,cup:.45,off:.5,ruffle:.1,dl:8},{n:3,type:'point',L:.42,wk:.1,e:.05,col:{h:48,s:90,l:60}}]},
+  {name:'калла',pl:'каллы',ins:'каллой',rare:1,big:1,center:0,spadix:1,parts:[{angles:[0],type:'point',L:1,wk:.7,e:1.05,cup:1.5,curl:-.3,base:0}]},
+  {name:'орхидея',pl:'орхидеи',ins:'орхидеей',rare:1,big:1,center:.05,dome:.5,parts:[{angles:[1.571,3.67,-.53],type:'point',L:.95,wk:.2,e:.18,cup:.15},{angles:[.3,2.84],type:'round',L:.85,wk:.46,e:.22,cup:.15,dl:6},{angles:[-1.571],type:'round',L:.5,wk:.3,e:.45,cup:.9,dl:-14,dh:12}]},
+  {name:'протея',pl:'протеи',ins:'протеей',rare:1,big:1,center:.38,dome:1.15,cs:'light',parts:[{n:14,type:'point',L:1,wk:.16,e:.85,cup:.4,dl:-4},{n:14,type:'point',L:.9,wk:.15,e:1.12,cup:.4,off:.5},{n:12,type:'point',L:.75,wk:.14,e:1.35,cup:.4,dl:6}]},
+  {name:'страстоцвет',pl:'страстоцветы',ins:'страстоцветом',rare:1,big:1,center:.1,cs:'green',corona:1,lily:5,dome:.6,parts:[{n:5,type:'long',L:.95,wk:.2,e:.05,cup:.1},{n:5,type:'long',L:.92,wk:.2,e:.1,off:.5,dl:10,cup:.1}]},
+  {name:'стрелиция',pl:'стрелиции',ins:'стрелицией',rare:1,big:1,center:0,parts:[{angles:[0],type:'point',L:1,wk:.17,e:.1,cup:.6,col:{h:150,s:30,l:34,h2:300}},{angles:[-.25,0,.25],type:'point',L:.85,wk:.1,e:1,cup:.5,base:.15,col:{h:28,s:95,l:55,h2:40}},{angles:[.08],type:'point',L:.7,wk:.08,e:.75,cup:.5,base:.15,col:{h:225,s:70,l:50}}]},
+  {name:'гортензия',pl:'гортензии',ins:'гортензией',big:1,center:0,cluster:{layout:'dome',count:38,sz:.22,rad:.72,dot:1,sub:[{n:4,type:'round',L:1,wk:.55,e:.12,cup:.25}]}},
+  {name:'лаванда',pl:'лаванда',ins:'лавандой',spike:1,center:0,hue:268,hs:{s:45,l:62},cluster:{layout:'spike',count:24,sz:.11,h:1.35,sub:[{n:4,type:'round',L:1,wk:.6,e:.7,cup:.5}]}},
+  {name:'дельфиниум',pl:'дельфиниумы',ins:'дельфиниумом',spike:1,center:0,cluster:{layout:'spike',count:14,sz:.19,h:1.35,dot:1,sub:[{n:5,type:'round',L:1,wk:.5,e:.2,cup:.3}]}},
+  {name:'колокольчик',pl:'колокольчики',ins:'колокольчиками',spike:1,center:0,cluster:{layout:'bells',count:5,sz:.36,sub:[{n:5,type:'point',L:1,wk:.42,e:-1.2,cup:.55,curl:.3}]}},
+  {name:'люпин',pl:'люпины',ins:'люпином',spike:1,center:0,cluster:{layout:'spike',count:22,sz:.15,h:1.35,sub:[{n:3,type:'round',L:1,wk:.6,e:.9,cup:.7}]}},
+  {name:'гиацинт',pl:'гиацинты',ins:'гиацинтом',spike:1,center:0,cluster:{layout:'spike',count:20,sz:.17,h:1,dot:1,sub:[{n:6,type:'point',L:1,wk:.3,e:.45,curl:-.3,cup:.3}]}},
+  {name:'вероника',pl:'вероника',ins:'вероникой',spike:1,center:0,hue:235,hs:{s:55,l:60},cluster:{layout:'spike',count:34,sz:.08,h:1.45,sub:[{n:4,type:'round',L:1,wk:.6,e:.5,cup:.4}]}},
+  {name:'нарцисс',pl:'нарциссы',ins:'нарциссом',center:.04,dome:.5,parts:[{n:6,type:'point',L:1,wk:.28,e:.12,cup:.2,col:'narcP'},{n:10,type:'round',L:.42,wk:.2,e:1.45,cup:.85,base:.12,ruffle:.15,col:'narcC'}]},
+  {name:'гвоздика',pl:'гвоздики',ins:'гвоздикой',n:[9,11],type:'round',layers:5,wk:.36,center:.05,shrink:.14,e:[.3,1.25],cup:.45,ruffle:.38,dome:.5},
+  {name:'магнолия',pl:'магнолии',ins:'магнолией',big:1,light:14,n:[3,3],type:'round',layers:3,wk:.42,center:.12,shrink:.12,e:[.55,1.15],cup:.75,cs:'green',dome:1},
+  {name:'сакура',pl:'ветки сакуры',ins:'сакурой',center:0,hue:340,hs:{s:60,l:82},cluster:{layout:'dome',count:14,sz:.27,rad:.68,dot:1,sub:[{n:5,type:'notch',L:1,wk:.45,e:.18,cup:.2}]}},
+  {name:'эхинацея',pl:'эхинацеи',ins:'эхинацеей',n:[14,16],type:'long',layers:1,wk:.12,center:.3,e:[-.38,-.38],curl:-.1,cup:.2,dome:1,cs:'orange'},
+  {name:'морозник',pl:'морозники',ins:'морозником',rare:1,n:[5,5],type:'round',layers:1,wk:.5,center:.16,e:[.45,.45],cup:.4,stamens:30,cs:'green',dome:.6},
+  {name:'гербера',pl:'герберы',ins:'герберой',n:[24,28],type:'long',layers:2,wk:.07,center:.24,shrink:.35,e:[.05,.25],cup:.12,dome:.3},
+  {name:'ранункулюс',pl:'ранункулюсы',ins:'ранункулюсом',big:1,spiral:44,type:'round',wk:.5,center:.03,e:[.55,1.45],cup:.8,dome:.5},
+  {name:'чертополох',pl:'чертополохи',ins:'чертополохом',rare:1,center:.42,dome:1.3,cs:'self',parts:[{n:12,type:'point',L:.6,wk:.07,e:-.15,col:{h:150,s:20,l:45}}]},
+  {name:'клематис',pl:'клематисы',ins:'клематисом',n:[6,6],type:'point',layers:1,wk:.26,center:.1,e:[.08,.08],cup:.15,stamens:40,dome:.5}
 ];
+const KBY={};KINDS.forEach(k=>{KBY[k.name]=k;});
+const SPIKES=KINDS.filter(k=>k.spike),MAINS=KINDS.filter(k=>!k.spike&&(k.big||k.rare)),SECONDS=KINDS.filter(k=>!k.spike);
 function bell(t,p){const u=t<p?t/p*.5:.5+(t-p)/(1-p)*.5;return Math.sqrt(Math.max(0,1-Math.pow(2*u-1,2)));}
 function wf(t,type){
   if(type==='round')return bell(t,.62);
@@ -131,9 +158,22 @@ function wf(t,type){
 
 /* ================= букет: параметры ================= */
 const BCACHE=new Map();
-function makeBouquet(seed){
-  if(BCACHE.has(seed))return BCACHE.get(seed);
+/* набор цветов дня: главный, два второстепенных и колосок */
+function pickKinds(r,recent,used){
+  recent=recent||new Set();used=used||new Set();
+  const fresh=arr=>{const f=arr.filter(k=>!recent.has(k.name)&&!used.has(k.name));if(f.length)return f;const g=arr.filter(k=>!used.has(k.name));return g.length?g:arr;};
+  const any=arr=>arr[Math.floor(r()*arr.length)];
+  let pool=fresh(MAINS);const rare=pool.filter(k=>k.rare);const m=any(rare.length&&r()<.7?rare:pool);used.add(m.name);
+  const a1=any(fresh(SECONDS));used.add(a1.name);const a2=any(fresh(SECONDS));used.add(a2.name);
+  const s=any(fresh(SPIKES));used.add(s.name);
+  return{m:m.name,a:[a1.name,a2.name],s:s.name};
+}
+function makeBouquet(seed,k){
+  const key=seed+'|'+(k?[k.m].concat(k.a,[k.s]).join(','):'');
+  if(BCACHE.has(key))return BCACHE.get(key);
   const r=rngOf(mixSeed(seed,'bouquet'));
+  if(!k||!KBY[k.m])k=pickKinds(rngOf(mixSeed(seed,'kinds')));
+  const KM=KBY[k.m],KA=k.a.map(n=>KBY[n]||SECONDS[0]),KS=KBY[k.s]||SPIKES[0];
   let H=r()*360;if(H>70&&H<165)H+=110;H%=360;
   const S0=52+r()*26;
   const noGreen=h=>{h=wrapH(h);return h>70&&h<165?(h<118?44:205):h;};
@@ -141,28 +181,37 @@ function makeBouquet(seed){
     if(v<.18)return{h:H,s:12,l:88,white:true};
     if(v<.32)return{h:noGreen(H+180+(r()-.5)*30),s:S0,l:56};
     const off=[0,28,-28,52,-14][Math.floor(r()*5)];return{h:noGreen(H+off),s:S0+(r()-.5)*14,l:56+(r()-.5)*10};};
-  const pickKind=(big,rr)=>{const pool=big?KINDS.filter(k=>k.big):KINDS.filter(k=>!k.big||rr()<.3);return pool[Math.floor(rr()*pool.length)];};
+  /* у каждого второстепенного вида свой цвет на весь букет, чтобы букет смотрелся собранным */
+  const kindHue=new Map();const hueOf=(K,main)=>{if(main)return hueFor(true);if(!kindHue.has(K.name))kindHue.set(K.name,hueFor(false));const h=kindHue.get(K.name);return{...h,l:h.l+(r()-.5)*6};};
   const V=(x,y,z)=>({x,y,z});
   const flowers=[];
-  const add=(main,pos,dir,size,k)=>{const fs=mixSeed(seed,'f'+flowers.length),rr=rngOf(fs),K=pickKind(main,rr);let hs=hueFor(main);
-    if(K.hue!=null&&!hs.white)hs={h:K.hue,s:88,l:56};hs.h2=K.hue!=null?hs.h-16:hs.h+(rr()<.5?-1:1)*(14+rr()*26);
-    flowers.push({K,hs,seed:fs,pos,dir,size,spin:rr()*TAU,main});};
+  const add=(K,main,pos,dir,size)=>{const fs=mixSeed(seed,'f'+flowers.length),rr=rngOf(fs);let hs=hueOf(K,main);
+    if(K.hue!=null&&!hs.white)hs={h:K.hue,s:K.hs?K.hs.s:88,l:K.hs?K.hs.l:56};if(K.light)hs={...hs,l:Math.min(92,hs.l+K.light)};
+    hs.h2=K.hue!=null?hs.h-16:hs.h+(rr()<.5?-1:1)*(14+rr()*26);
+    flowers.push({K,hs,seed:fs,pos,dir,size,spin:rr()*TAU,main,ph:rr()*TAU});};
   /* головы лежат на куполе радиуса DR с центром DC и смотрят наружу; расстояние по куполу между соседями не меньше суммы их радиусов */
-  const DR=2.2,DC=-1.05,onDome=(pol,az,size,main)=>{const s=Math.sin(pol),c=Math.cos(pol),d=V(s*Math.cos(az),c,s*Math.sin(az));add(main,V(d.x*DR,DC+d.y*DR,d.z*DR),d,size);};
-  const sM=.8,s1=.63,s2=.56,K=.95,p1=(sM+s1)*K/DR,p2=p1+(s1+s2)*K/DR;
-  onDome(0,0,sM,true);
+  const DR=2.2,DC=-1.05,dome=(pol,az,rad)=>{const s=Math.sin(pol),c=Math.cos(pol),d=V(s*Math.cos(az),c,s*Math.sin(az));return{d,p:V(d.x*(rad||DR),DC+d.y*(rad||DR),d.z*(rad||DR))};};
+  const onDome=(K,pol,az,size,main)=>{const q=dome(pol,az);add(K,main,q.p,q.d,size);};
+  const sM=.75,s1=.55,s2=.5,s3=.45,KK=.95,p1=(sM+s1)*KK/DR,p2=p1+(s1+s2)*KK/DR,p3=p2+(s2+s3)*KK/DR;
+  onDome(KM,0,0,sM,true);
   const o1=r()*TAU;
-  for(let i=0;i<6;i++)onDome(p1,o1+i*TAU/6+(r()-.5)*.08,s1*(.96+r()*.04));
-  for(let i=0;i<8;i++)onDome(p2,o1+(i+.5)*TAU/8+(r()-.5)*.06,s2*(.96+r()*.04));
-  const leaves=[];for(let i=0;i<12;i++)leaves.push({a:o1+.3+i*TAU/12+(r()-.5)*.2,e:.02+r()*.28,L:1.15+r()*.45,W:.22+r()*.07,serr:r()<.5});
-  const fillers=[];for(let i=0;i<14;i++){const a=r()*TAU,rad=1.05+r()*.65;fillers.push({x:Math.cos(a)*rad,y:.2+r()*.9,z:Math.sin(a)*rad,n:6+Math.floor(r()*5),s:mixSeed(seed,'fi'+i)});}
+  for(let i=0;i<6;i++)onDome(KA[i%2],p1,o1+i*TAU/6+(r()-.5)*.06,s1*(.96+r()*.04));
+  for(let i=0;i<10;i++){const sp=i===1||i===4||i===7;onDome(sp?KS:KA[(i+1)%2],p2,o1+(i+.5)*TAU/10+(r()-.5)*.05,s2*(sp?.85:.96+r()*.04));}
+  for(let i=0;i<14;i++){const K=i%7===3?KM:KA[i%2];onDome(K,p3,o1+(i+.25)*TAU/14+(r()-.5)*.04,s3*(.95+r()*.05));}
+  /* ягоды в просветах у края */
+  const berries=[];const bh=[355,18,280,330,0,45][Math.floor(r()*6)];
+  for(let i=0;i<9;i++){const q=dome((p2+p3)*.5+(r()-.5)*.05,o1+(i+.5)*TAU/9,DR*.95);berries.push({p:q.p,d:q.d,s:mixSeed(seed,'be'+i),n:4+Math.floor(r()*3)});}
+  const leaves=[];for(let i=0;i<18;i++)leaves.push({a:o1+.3+i*TAU/18+(r()-.5)*.15,e:-.05+r()*.3,L:1.5+r()*.5,W:.24+r()*.07,serr:r()<.5});
+  const eucal=[];for(let i=0;i<7;i++)eucal.push({a:o1+i*TAU/7+.12,e:.05+r()*.3,L:1.7+r()*.4,s:mixSeed(seed,'eu'+i)});
+  const ferns=[];for(let i=0;i<6;i++)ferns.push({a:o1+i*TAU/6+.5,e:-.05+r()*.25,L:1.8+r()*.3,s:mixSeed(seed,'fe'+i)});
+  /* облачка гипсофилы, чуть утопленные в купол */
+  const fillers=[];for(let i=0;i<18;i++){const q=dome(.3+r()*1.15,r()*TAU,DR*(.95+r()*.04));fillers.push({x:q.p.x,y:q.p.y,z:q.p.z,n:6+Math.floor(r()*5),s:mixSeed(seed,'fi'+i)});}
   const kraft=r()<.4;
   const wm=kraft?{h:32,s:36,l:70}:{h:wrapH(H+180+(r()-.5)*40),s:18+r()*16,l:84};
   const wm2={h:wrapH(H+(r()-.5)*30),s:30+r()*20,l:80};
   const rm={h:H+(r()-.5)*20,s:62,l:46,h2:H+12};
-  const names=[];flowers.slice(1).forEach(f=>{if(f.K!==flowers[0].K&&names.indexOf(f.K.pl)<0)names.push(f.K.pl);});
-  const B={seed,H,flowers,leaves,fillers,wm,wm2,rm,main:flowers[0].K,others:names.slice(0,3),leafHue:100+r()*30};
-  if(BCACHE.size>80)BCACHE.clear();BCACHE.set(seed,B);return B;
+  const B={seed,H,k,DR,DC,flowers,leaves,eucal,ferns,fillers,berries,berryHue:bh,wm,wm2,rm,main:KM,second:KA,spike:KS,leafHue:100+r()*30,wingHue:wrapH(H+150+r()*60)};
+  if(BCACHE.size>80)BCACHE.clear();BCACHE.set(key,B);return B;
 }
 
 /* ================= текстуры (общие) ================= */
@@ -368,41 +417,73 @@ function palOf(st,role,sp){const d=st.pal&&st.pal(role,sp);if(d)return d;
 function makeObj(ctx,geo,role,sp){const st=ctx.st;if(st.obj)return st.obj(geo,role,sp,ctx);
   const g=new T3.Mesh(geo,ctx.mat('m:'+role,()=>{const m=st.mat(role,sp,ctx);if(m.envMapIntensity!=null)m.envMapIntensity=st.env||.5;return m;}));
   if(!st.lines)return g;const grp=new T3.Group();grp.add(g);grp.add(new T3.LineSegments(new T3.EdgesGeometry(geo,32),ctx.mat('ln',()=>new T3.LineBasicMaterial({color:C(st.lines)}))));return grp;}
+function partSpec(f,P){
+  let h=f.hs.h,s=f.hs.s,l=f.hs.l,h2=f.hs.h2;
+  let c=P.col;
+  if(c==='narcP'||c==='narcC'){const v=f.seed%3;c=c==='narcP'?(v===1?{h:48,s:92,l:60}:{h:52,s:25,l:92}):(v===0?{h:26,s:95,l:55}:{h:44,s:95,l:55});}
+  if(c){h=c.h;s=c.s;l=c.l;h2=c.h2!=null?c.h2:c.h+8;}
+  if(P.dh){h+=P.dh;h2+=P.dh;}if(P.dl)l+=P.dl;
+  return{h,s,l,h2,white:f.hs.white};
+}
+function ringGeos(P,cf,r,lo,rot,cr){const out=[];const angs=P.angles?P.angles.map(a=>rot+a):Array.from({length:P.n},(_,i)=>rot+(i+(P.off||0))*TAU/P.n+(r()-.5)*.08);
+  angs.forEach(a=>{const g=petalGeo((P.L||1)*(.93+r()*.12),(P.wk||.3)*(.92+r()*.14),P.type||'round',{sx:lo.sx,sy:lo.sy,cup:P.cup||0,curl:P.curl||0,ruffle:P.ruffle,phase:r()*TAU},cf);
+    g.applyMatrix4(placeMat(a,(P.e||0)+(r()-.5)*.05,P.base!=null?P.base:cr*.5,P.y0||0));out.push(g);});return out;}
 function headObj(ctx,f){
-  const st=ctx.st,K=f.K,r=rngOf(f.seed),R=1,lo=st.flat?{sx:2,sy:4}:{sx:6,sy:10};
-  const pal=palOf(st,'petal',f.hs),cf=(t,s,o)=>{o.copy(pal[0]).lerp(pal[1],t);o.multiplyScalar(1-.12*s*s);};
-  const petals=[],cr=R*K.center,base=cr*.5,rot=r()*TAU;
-  if(K.spiral){const m=K.spiral;for(let i=0;i<m;i++){const fr=i/m,L=R*(1-fr*.72),W=L*K.wk*(1-fr*.2),e=K.e[0]+(K.e[1]-K.e[0])*Math.pow(fr,.8);
+  const st=ctx.st,K=f.K,r=rngOf(f.seed),R=1,lo=st.flat?{sx:2,sy:4}:{sx:6,sy:10},lo2=st.flat?{sx:2,sy:3}:{sx:3,sy:5};
+  const cfOf=sp=>{const pal=palOf(st,'petal',sp);return(t,s,o)=>{o.copy(pal[0]).lerp(pal[1],t);o.multiplyScalar(1-.12*s*s);};};
+  const groups=new Map(),put=(sp,geos)=>{const key=sp.h.toFixed(1)+'/'+sp.l.toFixed(1)+'/'+sp.s.toFixed(1);if(!groups.has(key))groups.set(key,{sp,geos:[]});groups.get(key).geos.push(...geos);};
+  const cf=cfOf(f.hs),petals=[],cr=R*(K.center||0),base=cr*.5,rot=r()*TAU,grp=new T3.Group(),extraStems=[],dots=[];
+  if(K.cluster){const C=K.cluster,n=C.count;
+    for(let i=0;i<n;i++){let p,d;
+      if(C.layout==='dome'){const fr=(i+.5)/n,pol=Math.acos(1-fr*(1-Math.cos(1.15))),az=i*2.39996;d=new T3.Vector3(Math.sin(pol)*Math.cos(az),Math.cos(pol),Math.sin(pol)*Math.sin(az));p=d.clone().multiplyScalar(C.rad).add(new T3.Vector3(0,-C.rad*.35,0));}
+      else if(C.layout==='spike'){const fr=i/(n-1),az=i*2.39996,rad=.16*(1-fr*.7)+.03;d=new T3.Vector3(Math.cos(az),.55+fr*.8,Math.sin(az)).normalize();p=new T3.Vector3(Math.cos(az)*rad,.15+fr*C.h,Math.sin(az)*rad);}
+      else{const a=i/n*TAU+.3,rad=.42+.08*(i%2);p=new T3.Vector3(Math.cos(a)*rad,.5-(i%2)*.15,Math.sin(a)*rad);d=new T3.Vector3(0,1,0);extraStems.push(cylBetween(new T3.Vector3(0,.7,0),p.clone().add(new T3.Vector3(0,.1,0)),.012,4));}
+      const sz=C.sz*(.85+r()*.3)*(C.layout==='spike'?1-i/n*.45:1),m=new T3.Matrix4().compose(p,new T3.Quaternion().setFromUnitVectors(Y,d.normalize()),new T3.Vector3(sz,sz,sz)),rr=r()*TAU;
+      C.sub.forEach(P=>{ringGeos(P,cf,r,lo2,rr,.08).forEach(g=>{g.applyMatrix4(m);petals.push(g);});});
+      if(C.dot){const s=new T3.IcosahedronGeometry(.16,0);s.applyMatrix4(m);dots.push(s);}}
+    if(C.layout!=='dome')extraStems.push(cylBetween(new T3.Vector3(0,-.05,0),new T3.Vector3(0,C.layout==='spike'?C.h+.15:.75,0),.025,5));}
+  else if(K.parts){K.parts.forEach(P=>{const sp=partSpec(f,P);put(sp,ringGeos(P,cfOf(sp),r,lo,rot,cr));});}
+  else if(K.spiral){const m=K.spiral;for(let i=0;i<m;i++){const fr=i/m,L=R*(1-fr*.72),W=L*K.wk*(1-fr*.2),e=K.e[0]+(K.e[1]-K.e[0])*Math.pow(fr,.8);
       const g=petalGeo(L,W,K.type,{...lo,cup:K.cup*(.6+fr*.6),curl:(K.curl||0)*(1-fr)+fr*.12,ruffle:K.ruffle,phase:r()*TAU},cf);g.applyMatrix4(placeMat(rot+i*2.39996,e,fr*.05,fr*.12));petals.push(g);}}
   else{const n=K.n[0]+Math.floor(r()*(K.n[1]-K.n[0]+1));
     for(let k=0;k<K.layers;k++){const L=(R-base)*(1-k*(K.shrink||0)),W=R*K.wk*(1-k*.08),e=K.e[0]+(K.e[1]-K.e[0])*(K.layers>1?k/(K.layers-1):0);
       for(let i=0;i<n;i++){const a=rot+(i+(k%2?.5:0))*TAU/n+(r()-.5)*.08;
         const g=petalGeo(L*(.93+r()*.12),W*(.92+r()*.14),K.type,{...lo,cup:K.cup,curl:K.curl||0,ruffle:K.ruffle,phase:r()*TAU},cf);g.applyMatrix4(placeMat(a,e+(r()-.5)*.06,base*(1-k*.15),k*.03));petals.push(g);}}}
-  const grp=new T3.Group();grp.add(makeObj(ctx,merge(petals),'petal',f.hs));
-  let cs;if(K.dark)cs={h:275,s:30,l:20,h2:300};else if(K.pod)cs={h:72,s:55,l:52,h2:60};else if(r()<.65||f.hs.white)cs={h:44,s:85,l:50,h2:30};else cs={h:f.hs.h+180,s:50,l:40,h2:f.hs.h+160};
+  if(petals.length)put(f.hs,petals);
+  groups.forEach(gr=>grp.add(makeObj(ctx,merge(gr.geos),'petal',gr.sp)));
+  if(extraStems.length){const sp=palOf(st,'stem',{h:110,s:35,l:30});extraStems.forEach(g=>tint(g,sp[0],sp[1]));grp.add(makeObj(ctx,merge(extraStems),'stem',{h:110,s:35,l:30}));}
+  let cs;
+  if(K.cs==='light')cs={h:f.hs.h,s:25,l:88,h2:f.hs.h};else if(K.cs==='green')cs={h:85,s:55,l:50,h2:70};else if(K.cs==='orange')cs={h:22,s:85,l:40,h2:30};else if(K.cs==='self')cs={h:f.hs.h,s:Math.min(90,f.hs.s+10),l:f.hs.l-6,h2:f.hs.h2};
+  else if(K.dark)cs={h:275,s:30,l:20,h2:300};else if(K.pod)cs={h:72,s:55,l:52,h2:60};else if(r()<.65||f.hs.white)cs={h:44,s:85,l:50,h2:30};else cs={h:f.hs.h+180,s:50,l:40,h2:f.hs.h+160};
+  if(dots.length){const cp=palOf(st,'center',{h:48,s:80,l:62});dots.forEach(g=>tint(g,cp[1]));grp.add(makeObj(ctx,merge(dots),'center',{h:48,s:80,l:62}));}
+  if(K.spadix){const cp=palOf(st,'center',{h:48,s:90,l:52,h2:44});const g=new T3.CylinderGeometry(.045,.07,.72,10,6);g.translate(0,.36,0);tint(g,cp[0],cp[1],'y',0,.72);const tip=new T3.SphereGeometry(.045,10,6);tip.translate(0,.72,0);tint(tip,cp[1]);grp.add(makeObj(ctx,merge([g,tip]),'center',{h:48,s:90,l:52}));}
   if(cr>.03){const cp=palOf(st,'center',cs),dome=K.dome||.5,parts=[];
     const d=new T3.SphereGeometry(cr,st.flat?8:22,st.flat?3:8,0,TAU,0,Math.PI/2);d.applyMatrix4(new T3.Matrix4().makeScale(1,dome,1));tint(d,cp[0],cp[1],'y',0,cr*dome);parts.push(d);
     const N=Math.max(8,Math.round(1100*cr*cr)),sz=cr/Math.sqrt(N)*.62;
     for(let i=0;i<N;i++){const rr=cr*.92*Math.sqrt((i+.5)/N),a=i*2.39996,y=cr*dome*Math.sqrt(Math.max(0,1-(rr/cr)**2));const s=new T3.IcosahedronGeometry(sz,0);
       s.translate(Math.cos(a)*rr,y,Math.sin(a)*rr);tint(s,i%2?cp[1]:cp[0]);parts.push(s);}
     grp.add(makeObj(ctx,merge(parts),'center',cs));}
+  if(K.corona){const csp={h:f.hs.h+20,s:60,l:40,h2:f.hs.h+40},cp=palOf(st,'petal',csp),fil=[];
+    for(let i=0;i<72;i++){const a=i/72*TAU+r()*.04,p0=new T3.Vector3(Math.cos(a)*.12,.06,Math.sin(a)*.12),pm=new T3.Vector3(Math.cos(a)*.34,.1,Math.sin(a)*.34),p1=new T3.Vector3(Math.cos(a+.05)*.62,.14+r()*.05,Math.sin(a+.05)*.62);
+      const g1=cylBetween(p0,pm,.008,3),g2=cylBetween(pm,p1,.007,3);tint(g1,cp[0]);tint(g2,cp[1]);fil.push(g1,g2);}
+    grp.add(makeObj(ctx,merge(fil),'petal',csp));}
   const sts=[];
-  if(K.lily||K.stamens){const sp={h:K.dark?270:K.lily?24:46,s:K.dark?25:85,l:K.dark?14:48},sc=palOf(st,'stamen',sp),n=K.lily?6:K.stamens;
-    for(let i=0;i<n;i++){const a=K.lily?rot+i*TAU/6+.3:r()*TAU,l0=K.lily?0:cr*.6,l1=K.lily?.55+r()*.12:cr*(1.4+r()*.5),h1=K.lily?.42:cr*(.5+r()*.4);
+  if(K.lily||K.stamens){const ln=K.lily?(K.lily>1?K.lily:6):0,sp={h:K.dark?270:K.lily?24:46,s:K.dark?25:85,l:K.dark?14:48},sc=palOf(st,'stamen',sp),n=K.lily?ln:K.stamens;
+    for(let i=0;i<n;i++){const a=K.lily?rot+i*TAU/ln+.3:r()*TAU,l0=K.lily?0:cr*.6,l1=K.lily?.55+r()*.12:Math.max(.12,cr*(1.4+r()*.5)),h1=K.lily?.42:Math.max(.12,cr*(.5+r()*.4));
       const p0=new T3.Vector3(Math.cos(a)*l0,cr*.2,Math.sin(a)*l0),p1=new T3.Vector3(Math.cos(a)*l1,h1,Math.sin(a)*l1);
       const c1=cylBetween(p0,p1,K.lily?.012:.006,4);tint(c1,sc[1]);sts.push(c1);const an=new T3.IcosahedronGeometry(K.lily?.04:.022,0);if(K.lily)an.scale(1,.5,1);an.translate(p1.x,p1.y,p1.z);tint(an,sc[0]);sts.push(an);}
     grp.add(makeObj(ctx,merge(sts),'stamen',sp));}
   return grp;
 }
-function WR(y){return .13+(y+2.1)/2.1*1.42;}
+function WR(y){return .13+(y+2.4)/1.62*1.75;}
 function wrapGeo(rMul,topAdd,phase,c0,c1){const cols=96,rows=12,pos=[],uv=[],idx=[],colA=[];
-  for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){const th=i/cols*TAU,top=-.08+topAdd+.14*Math.sin(th*3+phase)+.05*Math.sin(th*7+phase*2),v=j/rows,y=-2.1+(top+2.1)*v;
+  for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){const th=i/cols*TAU,top=-.78+topAdd+.14*Math.sin(th*3+phase)+.05*Math.sin(th*7+phase*2),v=j/rows,y=-2.4+(top+2.4)*v;
     const rr=WR(y)*rMul*(1+.05*Math.sin(th*8+phase));pos.push(Math.cos(th)*rr,y,Math.sin(th)*rr);uv.push(i/cols*3,v);const c=c0.clone().lerp(c1,v);colA.push(c.r,c.g,c.b);}
   for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){const a=j*(cols+1)+i,b=a+cols+1;idx.push(a,b,a+1,b,b+1,a+1);}
   const g=new T3.BufferGeometry();g.setAttribute('position',new T3.Float32BufferAttribute(pos,3));g.setAttribute('uv',new T3.Float32BufferAttribute(uv,2));g.setAttribute('color',new T3.Float32BufferAttribute(colA,3));g.setIndex(idx);g.computeVertexNormals();return g;}
 function buildScene(e,st,R){
   Y=new T3.Vector3(0,1,0);
-  const B=makeBouquet(e.seed),r=rngOf(mixSeed(e.seed,'scene'));
+  const B=makeBouquet(e.seed,e.k),r=rngOf(mixSeed(e.seed,'scene'));
   const scene=new T3.Scene(),root=new T3.Group(),bq=new T3.Group();scene.add(root);root.add(bq);
   const mats=new Map(),ctx={st,B,root,bq,scene,anims:[],mats,mat(k,f){if(!mats.has(k))mats.set(k,f());return mats.get(k);}};
   const bcv=document.createElement('canvas');bcv.width=bcv.height=512;st.bg(bcv.getContext('2d'),512,rngOf(mixSeed(e.seed,'bg')),B);const bgT=new T3.CanvasTexture(bcv);bgT.encoding=T3.sRGBEncoding;scene.background=bgT;ctx.bgT=bgT;
@@ -413,26 +494,52 @@ function buildScene(e,st,R){
   else if(L==='dark'){scene.add(new T3.HemisphereLight(0x8090ff,0x100810,.3));const k=new T3.DirectionalLight(0xffe2c0,1.1);k.position.set(3,4,5);scene.add(k);const rim=new T3.DirectionalLight(0xa0c0ff,1.5);rim.position.set(-3,2,-5);scene.add(rim);}
   else if(L==='soft'){scene.add(new T3.HemisphereLight(0xffffff,0xbfb5a8,.75));const k=new T3.DirectionalLight(0xffffff,.9);k.position.set(2.5,5,4);scene.add(k);}
   // цветы и стебли
-  const stems=[],tie=new T3.Vector3(0,-1.1,0);
+  const stems=[];ctx.heads=[];
   B.flowers.forEach(f=>{const h=headObj(ctx,f),pos=new T3.Vector3(f.pos.x,f.pos.y,f.pos.z),dir=new T3.Vector3(f.dir.x,f.dir.y,f.dir.z).normalize();
     h.position.copy(pos);h.quaternion.setFromUnitVectors(Y,dir);h.rotateY(f.spin);h.scale.setScalar(f.size);bq.add(h);
-    const curve=new T3.CatmullRomCurve3([pos.clone().addScaledVector(dir,.05),pos.clone().addScaledVector(dir,-.45),new T3.Vector3(pos.x*.4,-.45,pos.z*.4),new T3.Vector3(pos.x*.08,-1.1,pos.z*.08),new T3.Vector3(0,-2,0)]);
+    ctx.heads.push({o:h,q0:h.quaternion.clone(),ph:f.ph,amp:f.main?.035:f.K.spike?.07:.05});
+    const curve=new T3.CatmullRomCurve3([pos.clone().addScaledVector(dir,.05),pos.clone().addScaledVector(dir,-.45),new T3.Vector3(pos.x*.45,-.9,pos.z*.45),new T3.Vector3(pos.x*.08,-1.6,pos.z*.08),new T3.Vector3(0,-2.3,0)]);
     stems.push(new T3.TubeGeometry(curve,24,.028,st.flat?4:6,false));});
   const sp=palOf(st,'stem',{h:110,s:35,l:30});stems.forEach(g=>tint(g,sp[0],sp[1],'y',-2.2,1.5));bq.add(makeObj(ctx,merge(stems),'stem',{h:110,s:35,l:30}));
   // листья
   const lsp={h:B.leafHue,s:40,l:36},lp=palOf(st,'leaf',lsp),lf=[];
-  B.leaves.forEach(l=>{const g=petalGeo(l.L,l.W,'leaf',{sx:st.flat?2:5,sy:st.flat?4:12,cup:.3,curl:-.28,serr:l.serr},(t,s,o)=>{o.copy(lp[0]).lerp(lp[1],t);o.multiplyScalar(1-.15*s*s);});g.applyMatrix4(placeMat(l.a,l.e,.75,-.02));lf.push(g);});
-  bq.add(makeObj(ctx,merge(lf),'leaf',lsp));
+  B.leaves.forEach(l=>{const g=petalGeo(l.L,l.W,'leaf',{sx:st.flat?2:5,sy:st.flat?4:12,cup:.3,curl:-.28,serr:l.serr},(t,s,o)=>{o.copy(lp[0]).lerp(lp[1],t);o.multiplyScalar(1-.15*s*s);});g.applyMatrix4(placeMat(l.a,l.e,1.1,-.85));lf.push(g);});
+  // эвкалипт: веточка с парами круглых листиков
+  const esp={h:170,s:20,l:50},ep=palOf(st,'leaf',esp),eu=[];
+  B.eucal.forEach(q=>{const rr=rngOf(q.s),d=new T3.Vector3(Math.cos(q.a)*Math.cos(q.e),Math.sin(q.e),Math.sin(q.a)*Math.cos(q.e)),b=new T3.Vector3(Math.cos(q.a)*1.05,-.8,Math.sin(q.a)*1.05);
+    const tip=b.clone().addScaledVector(d,q.L).add(new T3.Vector3(0,-.15,0));eu.push(tint(cylBetween(b,tip,.012,4),sp[0]));
+    for(let i=1;i<=7;i++){const t=i/8,p=b.clone().lerp(tip,t),sz=.2*(1-t*.45);[-1,1].forEach(sd=>{const g=petalGeo(sz,sz*.62,'round',{sx:st.flat?2:4,sy:st.flat?3:6,cup:.15},(tt,s,o)=>{o.copy(ep[0]).lerp(ep[1],.4+tt*.6);});
+      g.applyMatrix4(placeMat(q.a+sd*1.3+(rr()-.5)*.3,.3+(rr()-.5)*.4,0,0));g.translate(p.x,p.y,p.z);eu.push(g);});}});
+  // папоротник
+  const fern=[];
+  B.ferns.forEach(q=>{const rr=rngOf(q.s),d=new T3.Vector3(Math.cos(q.a)*Math.cos(q.e),Math.sin(q.e),Math.sin(q.a)*Math.cos(q.e)),b=new T3.Vector3(Math.cos(q.a)*1.1,-.85,Math.sin(q.a)*1.1);
+    const pts=[];for(let i=0;i<=10;i++){const t=i/10;pts.push(b.clone().addScaledVector(d,q.L*t).add(new T3.Vector3(0,-.35*t*t,0)));}
+    for(let i=0;i<10;i++)fern.push(tint(cylBetween(pts[i],pts[i+1],.01*(1-i/12),3),lp[0]));
+    for(let i=1;i<10;i++){const t=i/10,len=.36*(1-t)*(.6+t)+.04;[-1,1].forEach(sd=>{const g=petalGeo(len,.05,'point',{sx:st.flat?2:3,sy:st.flat?3:5,cup:.2,curl:-.1},(tt,s,o)=>{o.copy(lp[0]).lerp(lp[1],tt);});
+      g.applyMatrix4(placeMat(q.a+sd*1.35,q.e-.2,0,0));g.translate(pts[i].x,pts[i].y,pts[i].z);fern.push(g);});}});
+  // подушка из листьев внутри купола: закрывает стебли в просветах между цветами
+  const fol=[],fr=rngOf(mixSeed(B.seed,'fol')),N=st.flat?90:140;
+  for(let i=0;i<N;i++){const pol=Math.acos(1-(i+.5)/N*(1-Math.cos(1.5))),az=i*2.39996+fr()*.3,n=new T3.Vector3(Math.sin(pol)*Math.cos(az),Math.cos(pol),Math.sin(pol)*Math.sin(az));
+    const tg=new T3.Vector3(-Math.sin(az),0,Math.cos(az)).multiplyScalar(fr()<.5?-1:1).add(new T3.Vector3(0,1,0).multiplyScalar(fr()-.5)).normalize(),dir=tg.multiplyScalar(1).addScaledVector(n,.18).normalize();
+    const g=petalGeo(.38+fr()*.14,.14+fr()*.04,'leaf',{sx:st.flat?2:3,sy:st.flat?4:6,cup:.3,curl:-.15},(t,s,o)=>{o.copy(lp[0]).lerp(lp[1],t*.7);o.multiplyScalar(1-.15*s*s);});
+    g.applyMatrix4(new T3.Matrix4().compose(n.clone().multiplyScalar(B.DR*.84).add(new T3.Vector3(0,B.DC,0)),new T3.Quaternion().setFromUnitVectors(Y,dir),new T3.Vector3(1,1,1)));fol.push(g);}
+  bq.add(makeObj(ctx,merge(lf.concat(eu,fern,fol)),'leaf',lsp));
+  // ягоды в просветах между цветами
+  const bsp={h:B.berryHue,s:70,l:44,h2:B.berryHue+10},bp=palOf(st,'berry',bsp),be=[];
+  B.berries.forEach(q=>{const rr=rngOf(q.s),c=new T3.Vector3(q.p.x,q.p.y,q.p.z),d=new T3.Vector3(q.d.x,q.d.y,q.d.z);
+    for(let i=0;i<q.n;i++){const off=new T3.Vector3((rr()-.5)*.22,(rr()-.5)*.18,(rr()-.5)*.22).addScaledVector(d,.04+rr()*.1),p=c.clone().add(off),rad=.032+rr()*.018;
+      const g=new T3.IcosahedronGeometry(rad,st.flat?0:1);g.translate(p.x,p.y,p.z);tint(g,bp[0],bp[1],'y',p.y-rad,p.y+rad);be.push(g);be.push(tint(cylBetween(p,c.clone().addScaledVector(d,-.15),.006,3),sp[0]));}});
+  bq.add(makeObj(ctx,merge(be),'berry',bsp));
   // веточки-наполнители
   const fsp={h:60,s:10,l:94},fp=palOf(st,'filler',fsp),fl=[];
-  B.fillers.forEach(q=>{const rr=rngOf(q.s);const c=new T3.Vector3(q.x,q.y,q.z);fl.push(tint(cylBetween(c,new T3.Vector3(q.x*.4,-.5,q.z*.4),.008,3),sp[0]));
+  B.fillers.forEach(q=>{const rr=rngOf(q.s);const c=new T3.Vector3(q.x,q.y,q.z);fl.push(tint(cylBetween(c,new T3.Vector3(q.x*.4,-.9,q.z*.4),.008,3),sp[0]));
     for(let i=0;i<q.n;i++){const g=new T3.IcosahedronGeometry(.028+rr()*.02,st.flat?0:1);g.translate(q.x+(rr()-.5)*.24,q.y+(rr()-.5)*.18,q.z+(rr()-.5)*.24);tint(g,i%2?fp[0]:fp[1]);fl.push(g);}});
   bq.add(makeObj(ctx,merge(fl),'filler',fsp));
   // обёртка и лента
   const wp=palOf(st,'wrap',B.wm),wp2=palOf(st,'wrap2',B.wm2);
   bq.add(makeObj(ctx,wrapGeo(.97,.22,1.7,wp2[0],wp2[1]),'wrap2',B.wm2));
   bq.add(makeObj(ctx,wrapGeo(1,0,.3,wp[0],wp[1]),'wrap',B.wm));
-  const rp=palOf(st,'ribbon',B.rm),rb=[],rAt=y=>WR(y)*1.05,RY=-1.0;
+  const rp=palOf(st,'ribbon',B.rm),rb=[],rAt=y=>WR(y)*1.05,RY=-1.62;
   const band=new T3.CylinderGeometry(rAt(RY+.08)+.02,rAt(RY-.08)+.02,.16,64,1,true);band.translate(0,RY,0);tint(band,rp[0],rp[1],'y',RY-.08,RY+.08);rb.push(band);
   const front=rAt(RY)+.06;
   [-1,1].forEach(sd=>{const t=new T3.TorusGeometry(.2,.05,8,28);t.scale(1,.6,.5);t.rotateZ(sd*.45);t.translate(sd*.19,RY+.05,front);tint(t,rp[1],rp[0],'x',-.4,.4);rb.push(t);
@@ -441,9 +548,26 @@ function buildScene(e,st,R){
   bq.add(makeObj(ctx,merge(rb),'ribbon',B.rm));
   // тень
   if(st.shadow!==false){const sc=document.createElement('canvas');sc.width=sc.height=128;const c2=sc.getContext('2d'),g=c2.createRadialGradient(64,64,4,64,64,64);g.addColorStop(0,'rgba(0,0,0,.45)');g.addColorStop(1,'rgba(0,0,0,0)');c2.fillStyle=g;c2.fillRect(0,0,128,128);
-    const tx=new T3.CanvasTexture(sc);const sh=new T3.Mesh(new T3.PlaneGeometry(3.4,3.4),new T3.MeshBasicMaterial({map:tx,transparent:true,depthWrite:false,color:st.shadow?C(st.shadow):0xffffff}));sh.rotation.x=-Math.PI/2;sh.position.y=-2.15;root.add(sh);ctx.shTex=tx;}
+    const tx=new T3.CanvasTexture(sc);const sh=new T3.Mesh(new T3.PlaneGeometry(4.4,4.4),new T3.MeshBasicMaterial({map:tx,transparent:true,depthWrite:false,color:st.shadow?C(st.shadow):0xffffff}));sh.rotation.x=-Math.PI/2;sh.position.y=-2.45;root.add(sh);ctx.shTex=tx;}
+  // живость: цветы покачиваются, летают бабочки, падают лепестки
+  const qe=new T3.Euler(),qq=new T3.Quaternion();
+  ctx.anims.push((dt,t)=>{ctx.heads.forEach(h=>{qe.set(Math.sin(t*1.1+h.ph)*h.amp,0,Math.cos(t*.85+h.ph*1.3)*h.amp);qq.setFromEuler(qe);h.o.quaternion.copy(h.q0).multiply(qq);});});
+  const wsp={h:B.wingHue,s:80,l:60,h2:B.wingHue+35},wp3=palOf(st,'petal',wsp),dsp={h:30,s:30,l:18};
+  for(let b=0;b<3;b++){const g=new T3.Group(),wings=[];
+    [-1,1].forEach(sd=>{const piv=new T3.Group(),fore=petalGeo(.28,.17,'round',{sx:4,sy:6,cup:.1},(t,s,o)=>o.copy(wp3[0]).lerp(wp3[1],t)),hind=petalGeo(.2,.14,'round',{sx:4,sy:6,cup:.1},(t,s,o)=>o.copy(wp3[1]).lerp(wp3[0],t*.6));
+      fore.rotateZ(-sd*Math.PI/2);fore.rotateX(Math.PI/2);fore.rotateY(sd*.35);hind.rotateZ(-sd*Math.PI/2);hind.rotateX(Math.PI/2);hind.rotateY(-sd*.45);
+      piv.add(makeObj(ctx,merge([fore,hind]),'petal',wsp));g.add(piv);wings.push({piv,sd});});
+    const body=new T3.CylinderGeometry(.018,.012,.2,6);body.rotateX(Math.PI/2);tint(body,hslC(30,30,18));g.add(makeObj(ctx,body,'stamen',dsp));
+    const ph=b*2.1+r()*.6,spd=(b%2?-1:1)*(.3+r()*.12),R0=3+r()*.35,y0=.2+r()*1.1;g.scale.setScalar(.85+r()*.3);scene.add(g);
+    ctx.anims.push((dt,t)=>{const a=t*spd+ph,rad=R0+.3*Math.sin(t*.7+ph);g.position.set(Math.cos(a)*rad,y0+.45*Math.sin(t*.9+ph)+.1*Math.sin(t*6+ph),Math.sin(a)*rad);
+      g.rotation.y=-a+(spd>0?0:Math.PI);const fl=.25+.95*Math.abs(Math.sin(t*9+ph));wings.forEach(w=>{w.piv.rotation.z=w.sd*fl;});});}
+  const psp={...B.flowers[0].hs},pp=palOf(st,'petal',psp),fall=[];
+  for(let i=0;i<7;i++){const g=petalGeo(.17,.09,'round',{sx:3,sy:5,cup:.25},(t,s,o)=>o.copy(pp[0]).lerp(pp[1],t)),m=makeObj(ctx,g,'petal',psp),o=new T3.Object3D();o.add(m);root.add(o);
+    const st0={a:r()*TAU,rad:2.3+r()*.5,y:-2.3+r()*3.6,v:.22+r()*.12,sp:r()*TAU,w:.8+r()*.8};fall.push({o,s:st0});}
+  ctx.anims.push((dt,t)=>{fall.forEach(f=>{const s=f.s;s.y-=s.v*dt;if(s.y<-2.4){s.y=1.3;s.a=r()*TAU;s.rad=2.3+r()*.5;}
+    f.o.position.set(Math.cos(s.a+t*.05)*s.rad+Math.sin(t*s.w+s.sp)*.15,s.y,Math.sin(s.a+t*.05)*s.rad);f.o.rotation.set(t*s.w+s.sp,t*.7+s.sp,Math.sin(t+s.sp));});});
   if(st.extras)st.extras(ctx,r);
-  const cam=new T3.PerspectiveCamera(30,1,.1,60);cam.position.set(0,1.8,10.9);cam.lookAt(0,-.2,0);
+  const cam=new T3.PerspectiveCamera(30,1,.1,60);cam.position.set(0,3.3,10.8);cam.lookAt(0,-.4,0);
   return{scene,cam,ctx};
 }
 function disposeScene(S){S.scene.traverse(o=>{if(o.geometry)o.geometry.dispose();});S.ctx.mats.forEach(m=>m.dispose());if(S.ctx.bgT)S.ctx.bgT.dispose();if(S.ctx.shTex)S.ctx.shTex.dispose();}
@@ -475,10 +599,10 @@ function animate(cv,e,frameEl){
   setupRenderer(R,st);const size=frameEl.clientWidth||480,dpr=Math.min(2,window.devicePixelRatio||1);
   let rw;if(st.pixel){R.setPixelRatio(1);R.setSize(st.pixel,st.pixel,false);cv.classList.add('pix');rw=st.pixel;}else{R.setPixelRatio(dpr);R.setSize(size,size,false);rw=size*dpr;}
   let S,comp,alive=true,th=.35,tilt=0,last=performance.now(),hold=0,drag=null,t=0;
-  requestAnimationFrame(()=>{if(!alive)return;try{S=buildScene(e,st,R);comp=makeComposer(R,S,st,rw,rw);}catch(err){console.error(err);if(loading)loading.textContent='Не получилось собрать букет.';return;}if(loading){loading.hidden=true;loading.style.display='none';}requestAnimationFrame(tick);});
+  requestAnimationFrame(()=>{if(!alive)return;try{S=buildScene(e,st,R);S.ctx.anims.forEach(f=>f(0,1));comp=makeComposer(R,S,st,rw,rw);}catch(err){console.error(err);if(loading)loading.textContent='Не получилось собрать букет.';return;}if(loading){loading.hidden=true;loading.style.display='none';}requestAnimationFrame(tick);});
   function tick(now){if(!alive)return;if(!cv.isConnected){stop();return;}const dt=Math.min(.1,(now-last)/1000);last=now;
     if(!document.hidden){t+=dt;if(!drag&&now>hold&&!reduce)th+=dt*TAU/36;if(!drag)tilt*=.96;
-      S.ctx.root.rotation.y=th;S.ctx.root.rotation.x=tilt;S.ctx.bq.position.y=reduce?0:Math.sin(t*.9)*.035;S.ctx.anims.forEach(f=>f(dt,t));if(st.anim)st.anim(S.ctx,dt,t);
+      S.ctx.root.rotation.y=th;S.ctx.root.rotation.x=tilt;S.ctx.bq.position.y=reduce?0:Math.sin(t*.9)*.035;if(!reduce)S.ctx.anims.forEach(f=>f(dt,t));if(st.anim)st.anim(S.ctx,dt,t);
       if(comp)comp.render();else R.render(S.scene,S.cam);}
     requestAnimationFrame(tick);}
   cv.addEventListener('pointerdown',ev=>{drag={x:ev.clientX,y:ev.clientY,th,tilt};try{cv.setPointerCapture(ev.pointerId);}catch(_){}});
@@ -495,15 +619,18 @@ function fmtDate(k){const a=k.split('-').map(Number);return new Date(a[0],a[1]-1
 function sorted(){return Object.keys(DATA.days).filter(k=>{const e=DATA.days[k];return e&&STYLES[e.s];}).sort();}
 function plural(n,a,b,c){const m=n%10,h=n%100;return m===1&&h!==11?a:m>=2&&m<=4&&(h<10||h>=20)?b:c;}
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+function recentKinds(day,n){const set=new Set();sorted().filter(k=>k<day).slice(-(n||4)).forEach(d=>{const k=DATA.days[d].k;if(k)[k.m].concat(k.a||[],[k.s]).forEach(x=>set.add(x));});return set;}
 function candidates(day){
   const r=rngOf(hashStr('choice:'+day)),recent={};
   sorted().filter(k=>k<day).slice(-6).forEach(k=>{recent[DATA.days[k].s]=1;});
   let pool=shuffle(STYLE_KEYS.filter(k=>!recent[k]),r);if(pool.length<3)pool=shuffle(STYLE_KEYS.slice(),r);
-  return pool.slice(0,3).map(s=>({s,seed:hashStr(day+':'+s)}));
+  const rk=recentKinds(day,4),used=new Set();
+  return pool.slice(0,3).map((s,i)=>({s,seed:hashStr(day+':'+s),k:pickKinds(rngOf(hashStr('kinds:'+day+':'+i)),rk,used)}));
 }
-function titleOf(e){const B=makeBouquet(e.seed),st=STYLES[e.s],o=B.others;
-  const comp=o.length?'В центре '+B.main.name+', вокруг '+(o.length>1?o.slice(0,-1).join(', ')+' и '+o[o.length-1]:o[0])+'.':'Весь из цветов одного вида: '+B.main.pl+'.';
-  return{name:cap(st.adj)+' букет',desc:cap(st.desc)+'. '+comp};}
+function titleOf(e){const B=makeBouquet(e.seed,e.k),st=STYLES[e.s],M=B.main,o=[];
+  B.second.forEach(K=>{if(K!==M&&o.indexOf(K.pl)<0)o.push(K.pl);});
+  const comp='В центре '+M.name+', вокруг '+o.join(' и ')+(B.spike&&o.indexOf(B.spike.pl)<0?', а ещё '+B.spike.pl:'')+'.';
+  return{name:cap(st.adj)+' букет '+(/^[сзшжщ][^аеёиоуыэюя]/i.test(M.ins)?'со ':'с ')+M.ins,desc:(M.rare?'Редкий цветок дня: '+M.name+'. ':'')+cap(st.desc)+'. '+comp,rare:!!M.rare};}
 
 const WIDGET_SRC="// Букет дня: виджет для приложения Scripting (iPhone).\n// Показывает последний подаренный букет и записку,\n// а когда появляется новый букет, присылает уведомление.\nimport { VStack, HStack, Text, Image, Spacer, Widget, Notification } from 'scripting'\n\nconst SITE = '__SITE__'\n\ntype Today = { date: string, label: string, name: string, note: string, img: string }\n\nasync function load(): Promise<Today | null> {\n  try {\n    const r = await fetch(SITE + 'today.json?t=' + Date.now(), { timeout: 20 })\n    if (!r.ok) throw new Error('http ' + r.status)\n    const j = (await r.json()) as Today\n    const prev = Storage.get<string>('lastImg')\n    if (prev && prev !== j.img) {\n      try {\n        await Notification.schedule({\n          title: 'Новый букет 🌸',\n          body: j.note && j.note.length ? j.note : j.name,\n          tapAction: { type: 'openURL', url: SITE }\n        })\n      } catch (e) {}\n    }\n    Storage.set('lastImg', j.img)\n    Storage.set('today', j)\n    return j\n  } catch (e) {\n    return Storage.get<Today>('today')\n  }\n}\n\nfunction Bouquet({ j, size }: { j: Today, size?: number }) {\n  return (\n    <Image\n      imageUrl={SITE + j.img}\n      resizable\n      scaleToFit\n      frame={size ? { width: size, height: size } : undefined}\n      widgetAccentedRenderingMode=\"fullColor\"\n    />\n  )\n}\n\nfunction View({ j }: { j: Today | null }) {\n  if (!j) {\n    return (\n      <VStack widgetURL={SITE}>\n        <Text font=\"headline\">Первый букет скоро появится 🌸<\/Text>\n      <\/VStack>\n    )\n  }\n  const words = j.note && j.note.length ? j.note : j.name\n  const fam = Widget.family\n\n  if (fam === 'systemSmall') {\n    return (\n      <VStack widgetURL={SITE} spacing={2}>\n        <Bouquet j={j} />\n        {j.note ? <Text font=\"caption\" lineLimit={1}>{j.note}<\/Text> : null}\n      <\/VStack>\n    )\n  }\n\n  if (fam === 'systemMedium') {\n    return (\n      <HStack widgetURL={SITE} spacing={12}>\n        <Bouquet j={j} size={140} />\n        <VStack alignment=\"leading\" spacing={6}>\n          <Text font=\"caption\" foregroundStyle=\"#b3305c\">{j.label}<\/Text>\n          <Text font=\"headline\" lineLimit={5}>{words}<\/Text>\n          <Spacer />\n        <\/VStack>\n        <Spacer />\n      <\/HStack>\n    )\n  }\n\n  return (\n    <VStack widgetURL={SITE} spacing={6}>\n      <Bouquet j={j} />\n      <Text font=\"caption\" foregroundStyle=\"#b3305c\">{j.label}<\/Text>\n      <Text font=\"headline\" lineLimit={3}>{words}<\/Text>\n    <\/VStack>\n  )\n}\n\nasync function run() {\n  const j = await load()\n  Widget.present(<View j={j} />, { policy: 'after', date: new Date(Date.now() + 20 * 60 * 1000) })\n}\n\nrun()\n";
 /* ================= сайт: данные на GitHub ================= */
@@ -580,7 +707,7 @@ function renderPick(){
   app.appendChild(el('p',{class:'hint',text:'И про живой букет не забывай хотя бы иногда: этот сад его не заменит.'}));
 }
 async function give(day,c,note,btn,status){
-  btn.disabled=true;const e={s:c.s,seed:c.seed};note=(note||'').trim().slice(0,240);if(note)e.n=note;
+  btn.disabled=true;const e={s:c.s,seed:c.seed};if(c.k)e.k=c.k;note=(note||'').trim().slice(0,240);if(note)e.n=note;
   try{
     status.textContent='Рисую картинку букета для виджета…';await new Promise(r=>setTimeout(r,30));
     const blob=await snapshot(e,900),imgPath='days/'+day+'.jpg';
